@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-from .models import Manufacturer, Car, Driver
+
+from .models import Car, Driver, Manufacturer
 
 
 class SearchTests(TestCase):
@@ -18,8 +19,12 @@ class SearchTests(TestCase):
         Car.objects.create(model="Camry", manufacturer=Manufacturer.objects.first())
         Car.objects.create(model="X5", manufacturer=Manufacturer.objects.last())
 
-        Driver.objects.create_user(username="ivanov", password="pass123", license_number="123456")
-        Driver.objects.create_user(username="petrov", password="pass123", license_number="654321")
+        Driver.objects.create_user(
+            username="ivanov", password="pass123", license_number="123456"
+        )
+        Driver.objects.create_user(
+            username="petrov", password="pass123", license_number="654321"
+        )
 
     def test_search_manufacturer(self):
         response = self.client.get(reverse("taxi:manufacturer-list"), {"q": "Toy"})
